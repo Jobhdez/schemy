@@ -59,7 +59,7 @@ lexer = lex.lex()
 
 def p_program(p):
     "expressions : expression expressions"
-    p[0] = Exps(p[1], p[2])
+    p[0] = Exps([p[1], p[2]])
 
 def p_program_empty(p):
     "expressions : expression"
@@ -141,13 +141,12 @@ class Nil:
     
 class Exps:
     "PROGRAM node."
-    __match_args__ = ('exp', 'expressions')
-    def __init__(self, exp,  expressions):
-        self.exp = exp
+    __match_args__ = ('expressions',)
+    def __init__(self, expressions):
         self.expressions = expressions
 
     def __repr__(self):
-        return f'(Exps {self.exp}  {self.expressions})'
+        return f'(Exps {self.expressions})'
 
 class Exp:
     "PROGRAM node."
@@ -189,7 +188,7 @@ class Bool:
         return f'(Bool {self.boolscm})'
 
 class Begin:
-    __match_args__ = ('exps')
+    __match_args__ = ('exps',)
     def __init__(self, exps):
         self.exps = exps
 
