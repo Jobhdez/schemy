@@ -1,0 +1,75 @@
+
+from parser import (
+    parser,
+    Program,
+    Nil,
+    Exps,
+    Exp,
+    Prim,
+    If,
+    Bool,
+    Begin,
+    While,
+    Let,
+    SetBang,
+    Int,
+    Op,
+    Binding,
+    Var,
+)
+def interp(exp, env):
+
+    match exp:
+        case Exp(e):
+            return interp(e, env)
+        case Bool(b):
+            return b
+        case If(cnd, thn, els):
+            match interp(cnd, env):
+                case "#t":
+                    return interp(thn, env)
+                case "#f":
+                    return interp(els, env)
+        case Prim(Op(oper), e, e2):
+            match oper:
+                case 'and':
+                    match interp(e, env):
+                        case '#t':
+                            match interp(e2, env):
+                                case '#t':
+                                    return '#t'
+                                case '#f':
+                                    return '#f'
+                        case '#f':
+                            return '#f'
+                case 'or':
+                    match interp(e, env):
+                        case '#t':
+                            return '#t'
+                        case '#f':
+                            match interp(e2, env):
+                                case '#t':
+                                    return '#t'
+                                case '#f':
+                                    return '#f'
+                case '+':
+                    return interp(e, env) + interp(e2, env)
+                case '-':
+                    return interp(e, env) - interp(e2, env)
+        case Int(n):
+            return n
+        case Var(e):
+            return env[e]
+        
+        case Let(Binding(Var(var), e), body_exp):
+            env[var] = interp(e, env)
+            return interp(body_exp, env)
+        case _:
+            return "not an expression"
+        
+            
+def repl(prompt='lambda> '):
+    while True:
+        val = interp(parser.parse(input(prompt)), {})
+        return val 
+        
