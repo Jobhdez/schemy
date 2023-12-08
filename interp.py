@@ -20,10 +20,10 @@ from parser import (
 def interp(exp, env):
 
     match exp:
-        case Exps(e):
+        case Exps(exps):
             result = None
-            for i in e:
-                result = interp(i, env)
+            for exp in exps:
+                result = interp(exp, env)
             return result
         
         case Exp(e):
@@ -85,8 +85,8 @@ def interp(exp, env):
             expressions = exps[:-1]
             length = len(exps)
             last_exp = exps[length-1]
-            for i in expressions:
-                interp(i, env)
+            for exp in expressions:
+                interp(exp, env)
 
             return interp(last_exp, env)
         
@@ -99,5 +99,5 @@ def repl(prompt='lambda> '):
     while True:
         tree = parser.parse(input(prompt))
         val = interp(tree, {})
-        return val 
+        print(val)
         
