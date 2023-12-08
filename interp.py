@@ -91,7 +91,7 @@ def interp(exp, env):
             return interp(last_exp, env)
         
         case _:
-            return "not an expression"
+            raise ValueError(f'Parse node {exp} is not valid node.')
         
         
             
