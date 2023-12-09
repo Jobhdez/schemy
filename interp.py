@@ -1,6 +1,4 @@
-
-from parser import (
-    parser,
+from nodes import (
     Program,
     Nil,
     Exps,
@@ -17,6 +15,7 @@ from parser import (
     Binding,
     Var,
 )
+
 def interp(exp, env):
 
     match exp:
@@ -92,12 +91,4 @@ def interp(exp, env):
         
         case _:
             raise ValueError(f'Parse node {exp} is not valid node.')
-        
-        
-            
-def repl(prompt='lambda> '):
-    while True:
-        tree = parser.parse(input(prompt))
-        val = interp(tree, {})
-        print(val)
         
