@@ -28,8 +28,13 @@ class Env(dict):
         self.outer = outer
 
     def find(self, var):
-        return self if var in self else self.outer.find(var)
-
+        if var in self:
+            return self
+        elif self.outer is not None:
+            return self.outer.find(var)
+        else:
+            return self
+    
 class Procedure(object):
     def __init__(self, params, body, env):
         self.params, self.body, self.env = params, body, env
@@ -117,15 +122,15 @@ def interp(exp, env=global_env):
         
         case SetBang(var, e):
             env.find(var.var)[var.var] = interp(e, env)
+            return None
             
-        case Begin(Exps(exps)):
-            expressions = exps[:-1]
-            length = len(exps)
-            last_exp = exps[length-1]
+        case Begin(exps):
+            flat_expressions = flatten_exps(exps)
+            expressions = flat_expressions[:-1]
             for exp in expressions:
                 interp(exp, env)
 
-            return interp(last_exp, env)
+            return interp(flat_expressions[-1], env)
 
         case Define(Var(var), exp):
             env[var] = interp(exp, env)
