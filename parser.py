@@ -17,6 +17,8 @@ from nodes import (
     Binding,
     Var,
     Application,
+    Lambda,
+    Define,
 )
 
 reserved = {
@@ -29,6 +31,8 @@ reserved = {
     'not': 'NOT',
     'eq?': 'EQ',
     'set': 'SET',
+    'define': 'DEFINE',
+    'lambda': 'LAMBDA',
     }
 tokens = [
     'LPAREN', 'RPAREN', 'PLUS', 'MINUS',
@@ -57,6 +61,8 @@ t_WHILE = r'while'
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
 t_EXCLAMATION = r'\!'
+t_DEFINE = r'define'
+t_LAMBDA = r'lambda'
 
 def t_NAME(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
@@ -143,6 +149,22 @@ def p_op(p):
 def p_binding(p):
     "binding : LPAREN LPAREN NAME expression RPAREN RPAREN"
     p[0] = Binding(Var(p[3]) if isinstance(p[3], str) else p[3], p[4])
+
+def p_define(p):
+    "expression : LPAREN DEFINE expression expression RPAREN"
+    p[0] = Define(p[3], p[4])
+
+def p_lambda(p):
+    "expression : LPAREN LAMBDA LPAREN params RPAREN expression RPAREN"
+    p[0] = Lambda(p[4], p[6])
+
+def p_params(p):
+    "params : NAME params"
+    p[0] = [p[1], p[2]]
+
+def p_params_single(p):
+    'params : NAME'
+    p[0] = [p[1]]
 
 def p_error(p):
     print("Syntax error at '%s'" % p.value)
