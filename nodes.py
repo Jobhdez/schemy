@@ -129,3 +129,11 @@ class Var:
 
     def __repr__(self):
         return f'(Var {self.var})'
+
+class Application:
+    __match_args__ = ('exps',)
+    def __init__(self, exps):
+        self.exps = exps
+
+    def __repr__(self):
+        return f'(Application {self.exps})'
