@@ -16,6 +16,7 @@ from nodes import (
     Op,
     Binding,
     Var,
+    Application,
 )
 
 reserved = {
@@ -122,6 +123,9 @@ def p_expression_begin(p):
     "expression : LPAREN BEGIN expressions RPAREN"
     p[0] = Begin(p[3])
 
+def p_expression_application(p):
+    "expression : LPAREN expressions RPAREN"
+    p[0] = Application(p[2])
 
 def p_op(p):
     """op : PLUS
