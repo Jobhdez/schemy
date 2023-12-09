@@ -136,4 +136,22 @@ class Application:
         self.exps = exps
 
     def __repr__(self):
-        return f'(Application {self.exps})'
+        return f'(Application (Exps {self.exps}))'
+
+class Define:
+    __match_args__=('var', 'exp')
+    def __init__(self, var, exp):
+        self.var = var
+        self.exp = exp
+
+    def __repr__(self):
+        return f'(Define (Var {self.var}) (Exp {self.exp}))'
+
+class Lambda:
+    __match_args__=('params', 'body')
+    def __init__(self, params, body):
+        self.params = params
+        self.body = body
+
+    def __repr__(self):
+        return f'(Lambda (Params {self.params}) (Body {self.body}))'
