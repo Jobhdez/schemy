@@ -14,9 +14,44 @@ from nodes import (
     Op,
     Binding,
     Var,
+    Define,
+    Application,
+    Lambda,
 )
 
-def interp(exp, env):
+from utils import flatten_params, flatten_exps
+import operator as op
+
+class Env(dict):
+    def __init__(self, params=(), args=(), outer=None):
+        self.update(zip(params, args))
+        self.outer = outer
+
+    def find(self, var):
+        return self if var in self else self.outer.find(var)
+
+class Procedure(object):
+    def __init__(self, params, body, env):
+        self.params, self.body, self.env = params, body, env
+
+    def __call__(self, *args):
+        return interp(self.body, Env(self.params, args, self.env))
+
+
+def standard_env():
+    env = Env()
+    env.update({
+        'car': lambda x: x[0],
+        'cdr': lambda x: x[1:],
+        'cons': lambda x, y: [x, y],
+        
+        })
+    return env
+
+global_env = standard_env()
+
+
+def interp(exp, env=global_env):
 
     match exp:
         case Exps(exps):
@@ -67,18 +102,21 @@ def interp(exp, env):
                 
                 case '-':
                     return interp(e, env) - interp(e2, env)
+        case Op(oper):
+            return op.add
+        
         case Int(n):
             return n
         
         case Var(e):
-            return env[e]
+            return env.find(e)[e]
         
         case Let(Binding(Var(var), e), body_exp):
             env[var] = interp(e, env)
             return interp(body_exp, env)
         
         case SetBang(var, e):
-            env[var.var] = interp(e, env)
+            env.find(var.var)[var.var] = interp(e, env)
             
         case Begin(Exps(exps)):
             expressions = exps[:-1]
@@ -88,7 +126,24 @@ def interp(exp, env):
                 interp(exp, env)
 
             return interp(last_exp, env)
-        
+
+        case Define(Var(var), exp):
+            env[var] = interp(exp, env)
+
+        case Lambda(params, body):
+
+            parameters = flatten_params(params)
+           
+
+            return Procedure(parameters, body, env)
+
+        case Application(exps):
+            exps = flatten_exps(exps)
+            operator = interp(exps[0], env)
+            exps = exps[1:]
+            vals = [interp(e, env) for e in exps]
+
+            return operator(*vals)
+            
         case _:
             raise ValueError(f'Parse node {exp} is not valid node.')
-        
