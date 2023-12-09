@@ -14,3 +14,16 @@ def flatten_exps(node):
             expressions.append(node)
 
     return expressions
+
+def flatten_params(params):
+    unnested_params = []
+    match params:
+        case [*parms]:
+            for parm in parms:
+                flattened_parm = flatten_params(parm)
+                if flattened_parm is not None:
+                    unnested_params.extend(flattened_parm)
+        case _:
+            unnested_params.append(params)
+
+    return unnested_params
