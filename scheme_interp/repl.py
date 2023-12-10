@@ -5,4 +5,12 @@ def repl(prompt='lambda> '):
     while True:
         tree = parser.parse(input(prompt))
         val = interp(tree)
-        print(val)
+        if val is not None:
+            print(py_to_scheme(val))
+
+def py_to_scheme(e):
+    match e:
+        case [*exps]:
+            return '(' + ' '.join(map(py_to_scheme, exps)) + ')'
+        case _:
+            return str(e)
