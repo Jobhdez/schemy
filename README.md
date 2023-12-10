@@ -6,7 +6,7 @@ Nothing serious - just for passing the time
 ## Usage
 
 ```python
->>> from repl import repl 
+>>> from scheme_interp.repl import repl 
 >>> repl()
 lambda> (begin (set! d 3) (+ d 4))
 7
