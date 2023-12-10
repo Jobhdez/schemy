@@ -35,4 +35,6 @@ lambda> (getfirst (list 3 5 6))
 3
 lambda> (car (cdr (list 3 4 5)))
 4
+lambda> (map (lambda (n) (+ n (+ n n))) (list 2 3 4 5))
+(6 9 12 15)     
 ```
