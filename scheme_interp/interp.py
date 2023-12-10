@@ -48,7 +48,8 @@ def standard_env():
         'car': lambda x: x[0],
         'cdr': lambda x: x[1:],
         'cons': lambda x, y: [x, y],
-        'list': lambda *x: list(x)
+        'list': lambda *x: list(x),
+        'map': lambda *args: list(map(*args)),
         
         })
     return env
