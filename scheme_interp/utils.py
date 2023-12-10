@@ -1,4 +1,4 @@
-from nodes import Exps
+from scheme_interp.nodes import Exps
 
 def flatten_exps(node):
     expressions = []

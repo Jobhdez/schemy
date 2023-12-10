@@ -1,4 +1,4 @@
-from nodes import (
+from scheme_interp.nodes import (
     Program,
     Nil,
     Exps,
@@ -19,8 +19,7 @@ from nodes import (
     Lambda,
 )
 
-from utils import flatten_params, flatten_exps
-import operator as op
+from scheme_interp.utils import flatten_params, flatten_exps
 
 class Env(dict):
     def __init__(self, params=(), args=(), outer=None):
