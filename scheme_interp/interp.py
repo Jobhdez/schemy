@@ -107,9 +107,7 @@ def interp(exp, env=global_env):
                 
                 case '-':
                     return interp(e, env) - interp(e2, env)
-        case Op(oper):
-            return op.add
-        
+                
         case Int(n):
             return n
         
@@ -136,9 +134,7 @@ def interp(exp, env=global_env):
             env[var] = interp(exp, env)
 
         case Lambda(params, body):
-
             parameters = flatten_params(params)
-           
 
             return Procedure(parameters, body, env)
 
