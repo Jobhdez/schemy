@@ -32,7 +32,7 @@ class Env(dict):
         elif self.outer is not None:
             return self.outer.find(var)
         else:
-            return self
+            raise NameError(f"Variable '{var}' is not defined.")
     
 class Procedure(object):
     def __init__(self, params, body, env):
