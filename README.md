@@ -24,4 +24,13 @@ lambda> (define nn (lambda (n) (let ((f 4)) (begin (set! g 3) (+ f (+ g n))))))
 None
 lambda> (nn 2)
 9
+lambda> (list 3 4 5)
+(3 4 5)
+lambda> (car (list 3 4 5))
+3
+lambda> (cdr (list 3 4 5))
+(4 5)
+lambda> (define getfirst (lambda (lst) (car lst)))
+lambda> (getfirst (list 3 5 6))
+3
 ```
