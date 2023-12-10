@@ -33,4 +33,6 @@ lambda> (cdr (list 3 4 5))
 lambda> (define getfirst (lambda (lst) (car lst)))
 lambda> (getfirst (list 3 5 6))
 3
+lambda> (car (cdr (list 3 4 5)))
+4
 ```
