@@ -5,6 +5,15 @@ Nothing serious - just for passing the time
 
 ## Usage
 
+### Dependencies
+
+```
+$ pip install -e .
+$ pip install -r requirements.txt
+```
+
+### Examples: repl usage
+
 ```python
 >>> from scheme_interp.repl import repl 
 >>> repl()
