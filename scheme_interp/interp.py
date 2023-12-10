@@ -116,8 +116,12 @@ def interp(exp, env=global_env):
             return env.find(e)[e]
         
         case Let(Binding(Var(var), e), body_exp):
-            env[var] = interp(e, env)
-            return interp(body_exp, env)
+            desugared_let = Lambda([var], body_exp)
+            proc = Procedure([var], body_exp, env)
+            exps = [e]
+            vals = [interp(e2, env) for e2 in exps]
+
+            return proc(*vals)
         
         case SetBang(var, e):
             env.find(var.var)[var.var] = interp(e, env)
