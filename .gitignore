@@ -3,3 +3,4 @@ scminterp/
 *.out
 __pycache__/
 parsetab.py
+scheme_interp.egg-info/
