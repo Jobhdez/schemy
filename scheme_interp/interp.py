@@ -108,7 +108,12 @@ def interp(exp, env=global_env):
                 
                 case '-':
                     return interp(e, env) - interp(e2, env)
-                
+
+                case '*':
+                    return interp(e, env) * interp(e2, env)
+
+                case '=':
+                    return '#t' if interp(e, env) == interp(e2, env) else '#f'
         case Int(n):
             return n
         
