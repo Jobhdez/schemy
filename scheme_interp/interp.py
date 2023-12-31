@@ -20,7 +20,7 @@ from scheme_interp.nodes import (
 )
 
 from scheme_interp.utils import flatten_params, flatten_exps
-
+import operator as op
 class Env(dict):
     def __init__(self, params=(), args=(), outer=None):
         self.update(zip(params, args))
@@ -50,6 +50,12 @@ def standard_env():
         'cons': lambda x, y: [x, y],
         'list': lambda *x: list(x),
         'map': lambda *args: list(map(*args)),
+        'eq?': op.is_,
+        'equal?': op.eq,
+        'list': lambda *x: list(x),
+        'list?': lambda x: isinstance(x, list),
+        'length': len,
+        'null?': lambda x: x == [],
         
         })
     return env
