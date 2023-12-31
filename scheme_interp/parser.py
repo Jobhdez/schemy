@@ -29,13 +29,13 @@ reserved = {
     'and': 'AND',
     'or': 'OR',
     'not': 'NOT',
-    'eq?': 'EQ',
+    'eq': 'EQ',
     'set': 'SET',
     'define': 'DEFINE',
     'lambda': 'LAMBDA',
     }
 tokens = [
-    'LPAREN', 'RPAREN', 'PLUS', 'MINUS',
+    'LPAREN', 'RPAREN', 'PLUS', 'MINUS', 'MUL',
     'LESS', 'GREATER', 'LESSEQ',
     'GREATEREQ', 'INTEGER',
     'TRUE', 'FALSE', 'NAME', 'EXCLAMATION',
@@ -43,6 +43,7 @@ tokens = [
 
 t_PLUS = r'\+'
 t_MINUS = r'-'
+t_MUL = r'\*'
 t_IF = r'if'
 t_LET = r'let'
 t_BEGIN = r'begin'
@@ -51,7 +52,7 @@ t_OR = r'or'
 t_TRUE = r'\#t'
 t_FALSE = r'\#f'
 t_LESS = r'<'
-t_EQ = r'eq?'
+t_EQ = r'='
 t_LESSEQ = r'<='
 t_GREATER = r'>'
 t_GREATEREQ = r'>='
@@ -135,10 +136,11 @@ def p_expression_application(p):
 
 def p_op(p):
     """op : PLUS
+        | MUL
         | MINUS
         | AND
         | OR
-        | EQ
+        | EQ 
         | LESS
         | LESSEQ
         | GREATER
