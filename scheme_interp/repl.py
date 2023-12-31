@@ -12,5 +12,9 @@ def py_to_scheme(e):
     match e:
         case [*exps]:
             return '(' + ' '.join(map(py_to_scheme, exps)) + ')'
+        case True:
+            return '#t'
+        case False:
+            return '#f'
         case _:
             return str(e)
