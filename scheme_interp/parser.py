@@ -29,16 +29,16 @@ reserved = {
     'and': 'AND',
     'or': 'OR',
     'not': 'NOT',
-    'eq': 'EQ',
     'set': 'SET',
     'define': 'DEFINE',
     'lambda': 'LAMBDA',
     }
 tokens = [
     'LPAREN', 'RPAREN', 'PLUS', 'MINUS', 'MUL',
-    'LESS', 'GREATER', 'LESSEQ',
+    'LESS', 'GREATER', 'LESSEQ', 'EQ', 'EQQ',
     'GREATEREQ', 'INTEGER',
     'TRUE', 'FALSE', 'NAME', 'EXCLAMATION',
+    
     ] + list(reserved.values())
 
 t_PLUS = r'\+'
@@ -64,9 +64,10 @@ t_RPAREN  = r'\)'
 t_EXCLAMATION = r'\!'
 t_DEFINE = r'define'
 t_LAMBDA = r'lambda'
+t_EQQ = r'eq\?'
 
 def t_NAME(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    r'[a-zA-Z_][a-zA-Z0-9_?]*'
     t.type = reserved.get(t.value, 'NAME')
     return t
 
@@ -101,15 +102,15 @@ def p_expression_bool(p):
                   | FALSE"""
     p[0] = Bool(p[1])
 
-def p_expression_var(p):
-    "expression : NAME"
-    p[0] = Var(p[1])
-
     
 def p_expression_prim(p):
     "expression : LPAREN op expression expression RPAREN"
     p[0] = Prim(p[2], p[3], p[4])
-    
+
+def p_expression_var(p):
+    "expression : NAME"
+    p[0] = Var(p[1])
+
 def p_expression_if(p):
     "expression : LPAREN IF expression expression expression RPAREN"
     p[0] = If(p[3], p[4], p[5])
@@ -140,7 +141,7 @@ def p_op(p):
         | MINUS
         | AND
         | OR
-        | EQ 
+        | EQ
         | LESS
         | LESSEQ
         | GREATER
