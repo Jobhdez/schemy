@@ -20,7 +20,7 @@ $ pip install -r requirements.txt
 lambda>  (define exp (lambda (base pow) (if (= pow 0) 1 (* base (exp base (- pow 1))))))
 lambda> (exp 2 3)
 8
-lambda> (begin (define! d 3) (+ d 4))
+lambda> (begin (define d 3) (+ d 4))
 7
 lambda> (let ((n 4)) (begin (define g 5) (define h 5) (+ n (+ g h))))
 14
