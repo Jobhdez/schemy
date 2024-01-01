@@ -3,7 +3,11 @@ from scheme_interp.interp import interp
 
 def repl(prompt='lambda> '):
     while True:
-        tree = parser.parse(input(prompt))
+        user_input = input(prompt)
+        if user_input.strip() == "(quit)":
+            break
+
+        tree = parser.parse(user_input)
         val = interp(tree)
         if val is not None:
             print(py_to_scheme(val))
