@@ -159,7 +159,10 @@ def interp(exp, env=global_env):
             exps = exps[1:]
             vals = [interp(e, env) for e in exps]
 
-            return operator(*vals)
+            return apply_scm(operator, vals)
             
         case _:
             raise ValueError(f'Parse node {exp} is not valid node.')
+
+def apply_scm(operator, exps):
+    return operator(*exps)
