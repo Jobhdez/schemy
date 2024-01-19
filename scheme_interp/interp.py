@@ -18,9 +18,9 @@ from scheme_interp.nodes import (
     Application,
     Lambda,
 )
-
 from scheme_interp.utils import flatten_params, flatten_exps
 import operator as op
+
 class Env(dict):
     def __init__(self, params=(), args=(), outer=None):
         self.update(zip(params, args))
@@ -64,7 +64,20 @@ global_env = standard_env()
 
 
 def interp(exp, env=global_env):
+    """
+    takes an ast corresponding to the syntax tree and evaluates it in the context
+    of the environment `global_env`; procedures have a local environment but also get
+    evaluated in the context of the global environment.
 
+    Examples:
+
+    >>> ast = parser.parse("(+ 1 1)")
+    >>> interp(ast, env)
+    2
+    >>> ast2 = parser.parse("(if #t 1 2)")
+    >>> interp(ast2, env)
+    1
+    """
     match exp:
         case Exps(exps):
             result = None
