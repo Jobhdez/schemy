@@ -1,5 +1,5 @@
 # Schemy
-Intepreter for a reasonable subset of Scheme.
+Intepreter for subset of Scheme.
 
 ## Usage
 
@@ -48,3 +48,6 @@ lambda> (car (cdr (list 3 4 5)))
 lambda> (map (lambda (n) (+ n (+ n n))) (list 2 3 4 5))
 (6 9 12 15)     
 ```
+# Acknowledgements
+I took some code from Peter Norvigs interpreter: I took the procedure class and environment class.
+# 
